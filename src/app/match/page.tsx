@@ -6,8 +6,6 @@ import {
   Radio, 
   Video, 
   VideoOff, 
-  Mic, 
-  MicOff, 
   Sparkles, 
   ArrowRight, 
   UserPlus, 
@@ -17,68 +15,136 @@ import {
   Lightbulb, 
   Bot, 
   Check, 
-  RotateCw, 
   ArrowLeft,
-  Flame,
-  Globe
+  Globe,
+  MessageSquare,
+  Users
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { sounds } from "@/lib/sound-effects";
 import { StrangerProfile, MatchMessage, WingmanSuggestion } from "@/types/match";
 
-const INTEREST_TAGS = [
-  "Anime & Manga",
-  "Gaming",
-  "Late Night Talks",
-  "Cyberpunk & Tech",
-  "Philosophy",
-  "Music & Vinyl",
-  "Creative Writing",
-  "Casual Vibes"
-];
+export interface MatchRoom {
+  id: string;
+  name: string;
+  tag: string;
+  description: string;
+  strangers: StrangerProfile[];
+}
 
-const SAMPLE_STRANGERS: StrangerProfile[] = [
+const SAMPLE_ROOMS: MatchRoom[] = [
   {
-    id: "stranger-1",
-    name: "Starlight_Fox",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-    location: "Tokyo, Japan",
-    interests: ["Anime & Manga", "Gaming", "Music & Vinyl"],
-    isAiFallback: false
+    id: "room-anime",
+    name: "Anime & Manga Haven",
+    tag: "Anime & Manga",
+    description: "Connect with otaku, cosplayers, and Shonen/Seinen enthusiasts.",
+    strangers: [
+      {
+        id: "st-anime-1",
+        name: "Kira_Cosplay",
+        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+        location: "Tokyo, Japan",
+        interests: ["Anime & Manga", "Cosplay", "JJK"],
+        isAiFallback: false
+      },
+      {
+        id: "st-anime-2",
+        name: "Ren_Kurosaki",
+        avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80",
+        location: "Seoul, South Korea",
+        interests: ["Anime & Manga", "Bleach", "Chainsaw Man"],
+        isAiFallback: false
+      }
+    ]
   },
   {
-    id: "stranger-2",
-    name: "NeonRider",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
-    location: "Berlin, Germany",
-    interests: ["Cyberpunk & Tech", "Late Night Talks"],
-    isAiFallback: false
+    id: "room-gaming",
+    name: "Gamer's Colosseum",
+    tag: "Gaming & RPG",
+    description: "Squad up for RPG lore, competitive discussions, and fantasy quests.",
+    strangers: [
+      {
+        id: "st-game-1",
+        name: "Valkyrie_Nova",
+        avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80",
+        location: "Stockholm, Sweden",
+        interests: ["Gaming & RPG", "Baldur's Gate", "Soulsborne"],
+        isAiFallback: false
+      },
+      {
+        id: "st-game-2",
+        name: "Jax_Shadow",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+        location: "Austin, Texas",
+        interests: ["Gaming & RPG", "Cyberpunk 2077", "Elden Ring"],
+        isAiFallback: false
+      }
+    ]
   },
   {
-    id: "stranger-ai-lumina",
-    name: "Lumina Starweaver (AI Wing Companion)",
-    avatar: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&auto=format&fit=crop&q=80",
-    location: "Celestial Rift Sector 4",
-    interests: ["Anime & Manga", "Philosophy", "Creative Writing"],
-    isAiFallback: true,
-    aiCharacterId: "lumina-starweaver"
+    id: "room-late-night",
+    name: "Midnight Vinyl & Talks",
+    tag: "Late Night Talks",
+    description: "Cozy confidential talks, indie music, and 3 AM thoughts.",
+    strangers: [
+      {
+        id: "st-night-1",
+        name: "Elena_Vance",
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80",
+        location: "London, UK",
+        interests: ["Late Night Talks", "Coffee", "Lo-Fi Music"],
+        isAiFallback: false
+      },
+      {
+        id: "st-night-2",
+        name: "Julian_Echo",
+        avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80",
+        location: "Montreal, Canada",
+        interests: ["Late Night Talks", "Acoustic", "Philosophy"],
+        isAiFallback: false
+      }
+    ]
+  },
+  {
+    id: "room-cyber",
+    name: "Cyberpunk Netrunners",
+    tag: "Sci-Fi & Cyberpunk",
+    description: "Glitch art, AI philosophy, synthwave, and dystopian tech.",
+    strangers: [
+      {
+        id: "st-cyber-1",
+        name: "Nyx_Vesper",
+        avatar: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&auto=format&fit=crop&q=80",
+        location: "Berlin, Germany",
+        interests: ["Sci-Fi & Cyberpunk", "Hacking", "AI"],
+        isAiFallback: false
+      },
+      {
+        id: "st-cyber-2",
+        name: "Cipher_Nine",
+        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&auto=format&fit=crop&q=80",
+        location: "Singapore",
+        interests: ["Sci-Fi & Cyberpunk", "Quantum Physics", "Synthwave"],
+        isAiFallback: false
+      }
+    ]
   }
 ];
 
 export default function RandomMatchPage() {
   const { ageVerified, verifyAge, userProfile } = useAppStore();
 
-  const [selectedTags, setSelectedTags] = useState<string[]>(["Anime & Manga", "Gaming"]);
+  const [selectedRoomId, setSelectedRoomId] = useState<string>("room-anime");
+  const [selectedStrangerIndex, setSelectedStrangerIndex] = useState<number>(0);
   const [isVideoMode, setIsVideoMode] = useState(false);
   const [matchState, setMatchState] = useState<"idle" | "searching" | "connected">("idle");
   const [searchCountdown, setSearchCountdown] = useState(10);
   const [showAiFallbackOffer, setShowAiFallbackOffer] = useState(false);
-  
+
   const [currentStranger, setCurrentStranger] = useState<StrangerProfile | null>(null);
   const [messages, setMessages] = useState<MatchMessage[]>([]);
   const [inputVal, setInputVal] = useState("");
 
-  // Wingman & Icebreakers
   const [showWingman, setShowWingman] = useState(true);
   const [wingmanSuggestions, setWingmanSuggestions] = useState<WingmanSuggestion[]>([
     { id: "w-1", text: "Ask what anime series made them cry the hardest", vibe: "thoughtful" },
@@ -90,12 +156,12 @@ export default function RandomMatchPage() {
   const userVideoRef = useRef<HTMLVideoElement>(null);
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll chat
+  const currentRoom = SAMPLE_ROOMS.find((r) => r.id === selectedRoomId) || SAMPLE_ROOMS[0];
+
   useEffect(() => {
     chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // 10-Second Fallback Countdown
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (matchState === "searching") {
@@ -108,7 +174,6 @@ export default function RandomMatchPage() {
     return () => clearTimeout(timer);
   }, [matchState, searchCountdown]);
 
-  // WebRTC User Camera
   useEffect(() => {
     if (isVideoMode && matchState === "connected" && typeof navigator !== "undefined" && navigator.mediaDevices) {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -128,29 +193,29 @@ export default function RandomMatchPage() {
     };
   }, [isVideoMode, matchState]);
 
-  const toggleTag = (tag: string) => {
-    sounds.playClick();
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
-  };
-
-  const startSearching = () => {
+  const startSearching = (strangerIdx = 0) => {
     sounds.playClick();
     setMatchState("searching");
     setSearchCountdown(10);
     setShowAiFallbackOffer(false);
 
-    // Simulate finding a match in 4 seconds
     setTimeout(() => {
-      const matchCandidate = SAMPLE_STRANGERS[Math.floor(Math.random() * 2)];
-      connectMatch(matchCandidate);
-    }, 4500);
+      const peer = currentRoom.strangers[strangerIdx % currentRoom.strangers.length];
+      connectMatch(peer);
+    }, 3500);
   };
 
   const connectWithAiFallback = () => {
     sounds.playClick();
-    const aiCandidate = SAMPLE_STRANGERS[2]; // Lumina
+    const aiCandidate: StrangerProfile = {
+      id: "ai-fallback-gojo",
+      name: "Satoru Gojo (AI Wingman Companion)",
+      avatar: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&auto=format&fit=crop&q=80",
+      location: "Tokyo Jujutsu High",
+      interests: ["Anime & Manga", "JJK", "Sweets"],
+      isAiFallback: true,
+      aiCharacterId: "satoru-gojo"
+    };
     connectMatch(aiCandidate);
   };
 
@@ -162,15 +227,15 @@ export default function RandomMatchPage() {
       {
         id: "sys-1",
         sender: "system",
-        content: `Connected with a stranger from ${stranger.location}! Shared interests: ${stranger.interests.join(", ")}. Stay respectful and safe.`,
+        content: `Connected with ${stranger.name} from ${stranger.location}! Shared room: ${currentRoom.name}. Stay respectful and safe.`,
         timestamp: "Just now"
       },
       {
         id: "st-1",
         sender: "stranger",
         content: stranger.isAiFallback 
-          ? "Hey there! The mortal queue was quiet, so the stars routed you to me. What are you up to tonight?" 
-          : "Hey! Nice to match with you. What kind of games or anime are you into lately?",
+          ? "Yo! The mortal queue was quiet, so the strongest teacher answered your call. What's on your mind?" 
+          : `Hey there! Glad to match with someone in the ${currentRoom.name} room. What have you been enjoying lately?`,
         timestamp: "Just now"
       }
     ]);
@@ -180,7 +245,9 @@ export default function RandomMatchPage() {
     sounds.playSwipe();
     setMessages([]);
     setCurrentStranger(null);
-    startSearching();
+    const nextIdx = (selectedStrangerIndex + 1) % currentRoom.strangers.length;
+    setSelectedStrangerIndex(nextIdx);
+    startSearching(nextIdx);
   };
 
   const handleSend = (e: React.FormEvent) => {
@@ -198,13 +265,13 @@ export default function RandomMatchPage() {
     setMessages((prev) => [...prev, userMsg]);
     setInputVal("");
 
-    // Simulate stranger response
     setTimeout(() => {
       sounds.playMessageReceive();
       const replies = [
         "Haha, that's awesome! I totally agree with that.",
         "Really? I was just thinking about that earlier today!",
-        "Tell me more about that, honestly sounds super cool."
+        "Tell me more about that, honestly sounds super cool.",
+        "No way, I love that so much! Who's your favorite character in it?"
       ];
       const replyMsg: MatchMessage = {
         id: `s-${Date.now()}`,
@@ -214,10 +281,9 @@ export default function RandomMatchPage() {
       };
       setMessages((prev) => [...prev, replyMsg]);
 
-      // Update AI wingman suggestions dynamically
       setWingmanSuggestions([
         { id: `w-${Date.now()}-1`, text: "Ask what they usually do on weekend nights", vibe: "playful" },
-        { id: `w-${Date.now()}-2`, text: "Share your all-time favorite hobby", vibe: "direct" },
+        { id: `w-${Date.now()}-2`, text: "Share your all-time favorite soundtrack", vibe: "direct" },
         { id: `w-${Date.now()}-3`, text: "Joke about having telepathic connection", vibe: "funny" }
       ]);
     }, 1400);
@@ -235,11 +301,9 @@ export default function RandomMatchPage() {
       "Icebreaker time: What's the weirdest movie or rabbit hole you got obsessed with recently?",
       "Hypothetical: You're given 1 million dollars, but you have to spend it all in 24 hours. What's the first purchase?"
     ];
-    const picked = icebreakers[Math.floor(Math.random() * icebreakers.length)];
-    setInputVal(picked);
+    setInputVal(icebreakers[Math.floor(Math.random() * icebreakers.length)]);
   };
 
-  // 18+ Verification Gate Modal Check
   if (!ageVerified) {
     return (
       <div className="flex h-[calc(100vh-4rem)] flex-col items-center justify-center p-6 text-center space-y-6 max-w-md mx-auto">
@@ -293,7 +357,6 @@ export default function RandomMatchPage() {
           </div>
         </div>
 
-        {/* Mode Selector */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
@@ -312,58 +375,78 @@ export default function RandomMatchPage() {
         </div>
       </div>
 
-      {/* Main Content Viewport */}
       {matchState === "idle" ? (
-        /* Setup / Filter Screen */
-        <div className="flex flex-1 flex-col items-center justify-center p-6 text-center max-w-xl mx-auto space-y-6">
+        /* Setup / Room Selection Screen */
+        <div className="flex flex-1 flex-col items-center justify-center p-6 text-center max-w-4xl mx-auto space-y-6 overflow-y-auto">
           <div className="space-y-2">
             <h1 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
               Meet Real People, Safely.
             </h1>
-            <p className="text-xs text-white/60 sm:text-sm">
-              Instant matchmaking paired by your shared passions. Fallback AI companion support ensures you are never left hanging in an empty queue.
+            <p className="text-xs text-white/60 sm:text-sm max-w-lg">
+              Choose a themed matchmaking room below. Each room connects you with verified peers sharing your passion, with AI companion fallback if a queue is quiet.
             </p>
           </div>
 
-          {/* Interests Selector */}
-          <div className="w-full space-y-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-left">
-            <span className="text-xs font-bold text-white/80 block">
-              Pick Your Interest Tags:
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {INTEREST_TAGS.map((tag) => {
-                const isSelected = selectedTags.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-medium border transition-all ${
-                      isSelected
-                        ? "border-brand-500 bg-brand-600 text-white shadow-md shadow-brand-500/20"
-                        : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10"
-                    }`}
-                  >
-                    #{tag}
-                  </button>
-                );
-              })}
-            </div>
+          {/* Curated Matchmaking Rooms Grid (2+ samples in each room) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-left">
+            {SAMPLE_ROOMS.map((room) => {
+              const isSelected = room.id === selectedRoomId;
+              return (
+                <div
+                  key={room.id}
+                  onClick={() => {
+                    setSelectedRoomId(room.id);
+                    sounds.playClick();
+                  }}
+                  className={`cursor-pointer rounded-2xl border p-5 transition-all ${
+                    isSelected
+                      ? "border-brand-500 bg-brand-500/10 shadow-lg shadow-brand-500/20 ring-1 ring-brand-500"
+                      : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/5"
+                  }`}
+                >
+                  <div className="flex items-center justify-between pb-2">
+                    <span className="font-display font-bold text-base text-white">
+                      {room.name}
+                    </span>
+                    <span className="rounded-full bg-brand-500/20 px-2 py-0.5 text-[10px] text-brand-300 font-semibold">
+                      {room.tag}
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/60 pb-3">
+                    {room.description}
+                  </p>
+
+                  {/* 2 Sample Peers in this room */}
+                  <div className="border-t border-white/5 pt-3 space-y-1.5">
+                    <span className="text-[10px] uppercase font-bold text-white/40 block">
+                      Active Peers in Room ({room.strangers.length})
+                    </span>
+                    <div className="flex items-center gap-3">
+                      {room.strangers.map((st) => (
+                        <div key={st.id} className="flex items-center gap-1.5 text-xs text-white/80">
+                          <img src={st.avatar} alt={st.name} className="h-6 w-6 rounded-full object-cover border border-brand-500/40" />
+                          <span className="truncate max-w-[90px]">{st.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Start CTA */}
           <button
-            onClick={startSearching}
+            onClick={() => startSearching(0)}
             className="flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-600 via-brand-500 to-brand-accent px-10 py-3.5 text-sm font-bold text-white shadow-xl shadow-brand-500/30 hover:scale-105 active:scale-95 transition-transform"
           >
             <Radio className="h-4 w-4 animate-pulse" />
-            Find Match Now
+            Enter {currentRoom.name}
           </button>
         </div>
       ) : matchState === "searching" ? (
-        /* Radar Searching Animation Screen */
+        /* Radar Searching Screen */
         <div className="flex flex-1 flex-col items-center justify-center p-6 text-center space-y-8">
           <div className="relative flex items-center justify-center">
-            {/* Sonar Radar Rings */}
             <div className="absolute h-48 w-48 rounded-full border border-brand-500/20 animate-ping" />
             <div className="absolute h-36 w-36 rounded-full border border-brand-500/40 animate-pulse" />
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-brand-600/30 border border-brand-500 text-brand-300 backdrop-blur-md">
@@ -373,17 +456,16 @@ export default function RandomMatchPage() {
 
           <div className="space-y-2 max-w-sm">
             <h3 className="font-display text-xl font-bold text-white">
-              Searching for Match...
+              Searching in {currentRoom.name}...
             </h3>
             <p className="text-xs text-white/50">
-              Scanning active travelers interested in {selectedTags.slice(0, 2).join(", ")}
+              Matching you with real peers interested in #{currentRoom.tag}
             </p>
             <div className="text-xs font-mono text-brand-400 pt-1">
               {searchCountdown > 0 ? `Matching timeout: ${searchCountdown}s` : "Queue timeout reached"}
             </div>
           </div>
 
-          {/* 10-Second AI Fallback Modal Prompt */}
           {showAiFallbackOffer && (
             <div className="rounded-2xl border border-brand-500/30 bg-[#161622] p-5 shadow-2xl max-w-md space-y-3 animate-fade-in">
               <div className="flex items-center gap-2 text-brand-300 font-bold text-sm">
@@ -391,14 +473,14 @@ export default function RandomMatchPage() {
                 No Human Match Found in 10s
               </div>
               <p className="text-xs text-white/70 leading-relaxed">
-                Would you like to connect with a verified AI companion (*Lumina Starweaver*) while you wait, or keep searching for human users?
+                Connect with an AI companion (*Satoru Gojo*) while waiting, or keep searching for human peers?
               </p>
               <div className="flex justify-center gap-2 pt-1">
                 <button
                   onClick={connectWithAiFallback}
                   className="rounded-xl bg-brand-600 px-4 py-2 text-xs font-bold text-white shadow-lg hover:bg-brand-500"
                 >
-                  Chat with Lumina (AI)
+                  Chat with Gojo (AI)
                 </button>
                 <button
                   onClick={() => {
@@ -421,11 +503,9 @@ export default function RandomMatchPage() {
           </button>
         </div>
       ) : (
-        /* Connected Match Screen */
+        /* Connected Screen */
         <div className="flex flex-1 flex-col lg:flex-row overflow-hidden">
-          {/* Left: Split Video / Stranger Screen */}
           <div className="flex flex-1 flex-col border-r border-white/5 bg-[#09090b]">
-            {/* Top Stranger Info & Action Bar */}
             <div className="flex items-center justify-between border-b border-white/5 bg-[#121218] p-3 px-4">
               <div className="flex items-center gap-3">
                 <div className="h-9 w-9 overflow-hidden rounded-full border border-brand-400">
@@ -445,13 +525,12 @@ export default function RandomMatchPage() {
                 </div>
               </div>
 
-              {/* Action Buttons: Next / Skip, Add Friend */}
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleNext}
                   className="flex items-center gap-1.5 rounded-full bg-brand-600 px-4 py-1.5 text-xs font-bold text-white shadow-md hover:bg-brand-500"
                 >
-                  <span>Next</span>
+                  <span>Next Peer</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </button>
 
@@ -473,30 +552,17 @@ export default function RandomMatchPage() {
               </div>
             </div>
 
-            {/* Split Video or Portrait Area */}
             {isVideoMode ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 flex-1 bg-black">
-                {/* Stranger Video */}
                 <div className="relative flex items-center justify-center rounded-2xl overflow-hidden bg-neutral-900 border border-white/10">
-                  <img
-                    src={currentStranger?.avatar}
-                    alt="Stranger"
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={currentStranger?.avatar} alt="Stranger" className="h-full w-full object-cover" />
                   <div className="absolute bottom-2 left-2 rounded-lg bg-black/60 px-2 py-1 text-[10px] text-white backdrop-blur-md">
                     {currentStranger?.name}
                   </div>
                 </div>
 
-                {/* You Video */}
                 <div className="relative flex items-center justify-center rounded-2xl overflow-hidden bg-neutral-900 border border-white/10">
-                  <video
-                    ref={userVideoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    className="h-full w-full object-cover"
-                  />
+                  <video ref={userVideoRef} autoPlay playsInline muted className="h-full w-full object-cover" />
                   {!cameraActive && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white/40 space-y-2">
                       <VideoOff className="h-8 w-8" />
@@ -509,15 +575,17 @@ export default function RandomMatchPage() {
                 </div>
               </div>
             ) : (
-              /* Text mode atmospheric card */
               <div className="hidden sm:flex flex-1 flex-col items-center justify-center p-6 text-center space-y-3 bg-[#0c0c12]">
                 <div className="h-28 w-28 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl">
                   <img src={currentStranger?.avatar} alt={currentStranger?.name} className="h-full w-full object-cover" />
                 </div>
                 <h3 className="font-display font-bold text-lg text-white">
-                  Chatting with {currentStranger?.name}
+                  Chatting in {currentRoom.name}
                 </h3>
-                <div className="flex flex-wrap justify-center gap-1.5 max-w-xs">
+                <p className="text-xs text-white/50 max-w-xs">
+                  Connected with {currentStranger?.name} from {currentStranger?.location}
+                </p>
+                <div className="flex flex-wrap justify-center gap-1.5 max-w-xs pt-1">
                   {currentStranger?.interests.map((t) => (
                     <span key={t} className="rounded-md bg-white/5 border border-white/10 px-2 py-0.5 text-[10px] text-white/70">
                       #{t}
@@ -528,9 +596,7 @@ export default function RandomMatchPage() {
             )}
           </div>
 
-          {/* Right: Live Text Chat & AI Wingman */}
           <div className="flex w-full lg:w-[440px] flex-col border-l border-white/5 bg-[#121218]">
-            {/* Chat Messages List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {messages.map((m) => {
                 if (m.sender === "system") {
@@ -560,7 +626,6 @@ export default function RandomMatchPage() {
               <div ref={chatBottomRef} />
             </div>
 
-            {/* AI Wingman Assistant Bar */}
             {showWingman && (
               <div className="border-t border-brand-500/20 bg-brand-950/20 p-3 space-y-2">
                 <div className="flex items-center justify-between">
@@ -592,7 +657,6 @@ export default function RandomMatchPage() {
               </div>
             )}
 
-            {/* Chat Input */}
             <form onSubmit={handleSend} className="flex items-center gap-2 border-t border-white/5 bg-[#0e0e13] p-3">
               <input
                 type="text"

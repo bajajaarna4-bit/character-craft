@@ -4,7 +4,8 @@ export type CharacterCategory =
   | "Romance & Companions" 
   | "Mentors & Philosophy" 
   | "Sci-Fi & Cyberpunk" 
-  | "Fantasy & Gaming" 
+  | "Fantasy & Gaming"
+  | "Gaming & Fantasy"
   | "Horror & Mystery" 
   | "Study Buddies";
 
@@ -51,8 +52,8 @@ export interface Character {
   };
   isOriginal: boolean;
   isNsfw?: boolean;
-  themeColor: string; // Hex for ambient mood glow
-  trailerVideo?: string; // Optional trailer ambient video/animated backdrop
+  themeColor: string;
+  trailerVideo?: string;
 }
 
 export interface AlternateReply {
@@ -71,4 +72,3 @@ export interface ChatMessage {
   isStreaming?: boolean;
   mood?: "neutral" | "happy" | "sad" | "flirty" | "angry" | "thoughtful" | "mysterious";
 }
-

@@ -1,10 +1,10 @@
 # NOVA — Cinematic AI Social Companion Platform
 
-> A next-generation AI companion experience combining **Character.AI** (character creation & streaming chat), **Chai** (swipeable alternate replies & mobile-first immersion), **Omegle** (safe random matchmaking with video/voice), and **Discord** (communities, channels & AI NPC bots).
+> A next-generation social AI companion platform combining **Character.AI** (character creation & streaming chat), **Chai** (swipeable alternate replies & mobile-first immersion), **Discord** (communities, channels, voice rooms & AI NPC bots), and **Omegle** (safe random matchmaking with video/voice & AI wingman).
 
 ---
 
-## 🌟 Features Implemented in Phase 1
+## 🌟 Full Suite of Features
 
 ### 1. Netflix-Grade Cinematic UI / UX
 - **Deep Obsidian Palette**: Refined dark canvas (`#09090b`), signature violet/magenta/cyan glowing accents, and glassmorphism panels.
@@ -22,18 +22,31 @@
   - **Speech-to-Text (STT)**: Hands-free mic dictation.
   - **Text-to-Speech (TTS)**: Voice read aloud for messages with customized pitch and rate.
 
-### 3. Character Creator Studio
+### 3. Communities (Discord-Style Hub) — `/community`
+- **Server Rail**: Multi-server switcher with unread notifications and "Create Server" modal.
+- **Channels**: Text channels (`# general-lounge`, `# astral-roleplay`, `# companion-creators`) and Voice rooms.
+- **AI Bots as Channel NPCs**: AI characters live inside channels as verified `[BOT NPC]` participants (e.g., Lumina Starweaver, Marcus Aurelius, Vesper-7) who actively respond when mentioned (`@Lumina`, etc.).
+- **Interactive Voice Stage**: Multi-speaker grid with green talking indicators, mute/unmute, and deafen controls.
+- **Emoji Reactions**: Real-time reaction counters (`🔥`, `✨`, `❤️`, `😂`, `👍`).
+- **Member Directory**: Categorized by AI Bot NPCs, Council & Admins, and Online members.
+
+### 4. Safe Random Match (Omegle-Style) — `/match`
+- **18+ Age Gate & Safety Guard**: Verified age barrier ensuring no minors are paired.
+- **Interest Tag Matching**: Instant matchmaking paired by shared tags (Anime, Gaming, Late Night Talks, Cyberpunk, Philosophy).
+- **Mode Switcher**: Text Chat vs. WebRTC Video/Voice with mutual camera opt-in.
+- **10-Second Countdown & AI Fallback**: If no human peer is available within 10s, offers instant fallback to match with an AI companion.
+- **AI Wingman Assistant**: Live floating panel analyzing conversation and generating 3 instant witty/insightful replies.
+- **AI Icebreaker Generator**: Instantly drops fun questions or creative dilemmas into the chat to kill awkward pauses.
+- **Session Controls**: Instant "Next" skip, "Add Friend", and "Make Room Private" buttons.
+
+### 5. Character Creator Studio — `/create`
 - Full creation suite: Name, category, avatar picker, custom image URL, ambient aura selector, opening greeting, personality prompts, backstory, few-shot example dialogue, and voice configuration.
 - Instantly saves and launches direct chat with your new character.
 
-### 4. Safety & Content Guardrails
-- **Crisis Helpline Intervention**: Automated detection of crisis/self-harm keywords with instant emergency hotline resources (988 Lifeline, Crisis Text Line).
-- **18+ Age Gate Compliance**: Status verification pill in the navbar.
+### 6. Safety & Crisis Guardrails
+- **Crisis Helpline Intervention**: Automated detection of crisis/self-harm keywords in the API route, returning 988 Lifeline and Crisis Text Line resources.
 - **Safety Center & Reporting Modal**: Flagging queue for non-consensual content, impersonation, and policy violations.
 - **AI Persona Disclaimer**: Strict labelling distinguishing AI entities from real living people.
-
-### 5. 20 Pre-Seeded Original Characters
-A diverse roster including *Lumina Starweaver*, *Mia Vance*, *Vesper-7*, *Marcus Aurelius*, *Lyra Shadowsong*, *Inspector Silas Blackwood*, *Dr. Ada Vance*, *Noah Sterling*, *Kaelen Shadowblade*, *Cipher-9*, *Suki the Fox Spirit*, and more.
 
 ---
 
@@ -43,7 +56,7 @@ A diverse roster including *Lumina Starweaver*, *Mia Vance*, *Vesper-7*, *Marcus
 - Node.js 18+ or 20+
 - `pnpm` (or `npm`)
 
-### Installation
+### Installation & Launch
 
 ```bash
 # Clone the repository
@@ -58,48 +71,7 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## 🔧 Environment Variables
-
-Create a `.env.local` file in the root directory for optional external integrations:
-
-```env
-# Optional external LLM API keys (if left blank, NOVA runs with built-in streaming simulation)
-OPENAI_API_KEY=""
-GEMINI_API_KEY=""
-
-# Database (PostgreSQL / Supabase - for Phase 2+)
-DATABASE_URL="postgresql://user:password@localhost:5432/nova?schema=public"
-
-# Redis (for Presence & Matchmaking - Phase 3 & 4)
-REDIS_URL="redis://localhost:6379"
-
-# Stripe (Phase 5)
-STRIPE_SECRET_KEY=""
-STRIPE_WEBHOOK_SECRET=""
-```
-
----
-
-## 🗺️ Phased Roadmap
-
-- [x] **Phase 1: Cinematic Core (Completed)**:
-  - Netflix-grade discovery home with Hero spotlight & category carousels
-  - 20 seeded original characters
-  - Streaming Chat Studio with Chai swipe alternate replies
-  - Long-term memory panel
-  - Voice TTS / STT
-  - Character Creator Studio
-  - Safety & crisis intervention protocols
-- [ ] **Phase 2: Persistent Vector Memory & Edge Voice**:
-  - PostgreSQL / Supabase integration with pgvector for semantic recall
-  - ElevenLabs voice synthesis integration
-- [ ] **Phase 3: Discord-Style Communities**:
-  - Servers, text/voice channels, roles, and AI NPC bots
-- [ ] **Phase 4: Safe Omegle-Style Matchmaking**:
-  - WebRTC video/voice matchmaking with interest tags & AI wingman
-- [ ] **Phase 5: Creator Economy & Stripe Subscriptions**:
-  - Paywall, tiers, tips, and character monetization
-
+- **Discovery & Chat**: [http://localhost:3000/](http://localhost:3000/)
+- **Creator Studio**: [http://localhost:3000/create](http://localhost:3000/create)
+- **Communities**: [http://localhost:3000/community](http://localhost:3000/community)
+- **Random Match**: [http://localhost:3000/match](http://localhost:3000/match)

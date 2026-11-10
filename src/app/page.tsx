@@ -5,25 +5,25 @@ import HeroBanner from "@/components/HeroBanner";
 import CategoryRow from "@/components/CategoryRow";
 import CharacterCard from "@/components/CharacterCard";
 import { useAppStore } from "@/lib/store";
-import { Sparkles, TrendingUp, Heart, Compass, Search } from "lucide-react";
+import { Sparkles, TrendingUp, Heart, Compass, Search, Flame, Users } from "lucide-react";
 import { sounds } from "@/lib/sound-effects";
 
 export default function HomePage() {
   const { characters, searchQuery } = useAppStore();
   const [activeCategoryTab, setActiveCategoryTab] = useState<string>("All");
+  const [genderFilter, setGenderFilter] = useState<"All" | "Male" | "Female">("All");
 
   const categories = [
     "All",
     "Anime & Manga",
+    "Gaming & Fantasy",
     "Romance & Companions",
-    "Mentors & Philosophy",
     "Sci-Fi & Cyberpunk",
-    "Fantasy & Gaming",
     "Horror & Mystery",
     "Study Buddies"
   ];
 
-  // Search filtering
+  // Filtering by Search, Category, and Gender
   const filteredCharacters = characters.filter((c) => {
     const matchesSearch =
       searchQuery.trim() === "" ||
@@ -35,58 +35,87 @@ export default function HomePage() {
     const matchesCategory =
       activeCategoryTab === "All" || c.category === activeCategoryTab;
 
-    return matchesSearch && matchesCategory;
+    const matchesGender =
+      genderFilter === "All" || c.tags.includes(genderFilter);
+
+    return matchesSearch && matchesCategory && matchesGender;
   });
 
   // Grouped rows for Netflix discovery presentation
-  const trendingCharacters = [...characters].sort((a, b) => b.chatCount - a.chatCount).slice(0, 10);
-  const animeCharacters = characters.filter((c) => c.category === "Anime & Manga");
-  const romanceCharacters = characters.filter((c) => c.category === "Romance & Companions");
-  const mentorsCharacters = characters.filter((c) => c.category === "Mentors & Philosophy");
-  const sciFiCharacters = characters.filter((c) => c.category === "Sci-Fi & Cyberpunk");
-  const fantasyCharacters = characters.filter((c) => c.category === "Fantasy & Gaming");
-  const studyCharacters = characters.filter((c) => c.category === "Study Buddies");
-  const horrorCharacters = characters.filter((c) => c.category === "Horror & Mystery");
+  const trendingCharacters = [...characters].sort((a, b) => b.chatCount - a.chatCount).slice(0, 14);
+  const maleCharacters = characters.filter((c) => c.tags.includes("Male")).slice(0, 14);
+  const femaleCharacters = characters.filter((c) => c.tags.includes("Female")).slice(0, 14);
+  const animeCharacters = characters.filter((c) => c.category === "Anime & Manga").slice(0, 14);
+  const gamingCharacters = characters.filter((c) => c.category === "Gaming & Fantasy").slice(0, 14);
+  const romanceCharacters = characters.filter((c) => c.category === "Romance & Companions").slice(0, 14);
+  const sciFiCharacters = characters.filter((c) => c.category === "Sci-Fi & Cyberpunk").slice(0, 14);
+  const horrorCharacters = characters.filter((c) => c.category === "Horror & Mystery").slice(0, 14);
 
   return (
     <div className="relative min-h-screen pb-24">
-      {/* 1. Netflix Spotlight Hero Banner (only when not searching) */}
+      {/* 1. Netflix Spotlight Hero Banner */}
       {!searchQuery && <HeroBanner characters={characters} />}
 
-      {/* 2. Category Quick Switcher Tabs */}
+      {/* 2. Category & Gender Quick Switcher Bar */}
       <div className="sticky top-16 z-30 border-b border-white/5 bg-background/90 px-4 py-3 backdrop-blur-md sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 overflow-x-auto scrollbar-none">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => {
-                sounds.playClick();
-                setActiveCategoryTab(cat);
-              }}
-              className={`flex-none rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
-                activeCategoryTab === cat
-                  ? "bg-white text-black shadow-md shadow-white/10"
-                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+          {/* Category Tabs */}
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1 sm:pb-0">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => {
+                  sounds.playClick();
+                  setActiveCategoryTab(cat);
+                }}
+                className={`flex-none rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                  activeCategoryTab === cat
+                    ? "bg-white text-black shadow-md shadow-white/10"
+                    : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Gender Filter Pills (Male / Female Character.ai split) */}
+          <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 p-1">
+            {(["All", "Male", "Female"] as const).map((g) => (
+              <button
+                key={g}
+                onClick={() => {
+                  sounds.playClick();
+                  setGenderFilter(g);
+                }}
+                className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
+                  genderFilter === g
+                    ? "bg-brand-600 text-white shadow-md shadow-brand-500/30"
+                    : "text-white/60 hover:text-white"
+                }`}
+              >
+                {g === "All" ? "All Genders" : `${g} Companions`}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* 3. Main Discovery Feed */}
       <div className="mx-auto max-w-7xl pt-4">
-        {searchQuery || activeCategoryTab !== "All" ? (
+        {searchQuery || activeCategoryTab !== "All" || genderFilter !== "All" ? (
           /* Grid View for Search & Filter Results */
           <div className="px-4 py-6 sm:px-6 lg:px-8">
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="font-display text-xl font-bold text-white sm:text-2xl">
-                {searchQuery ? `Search results for "${searchQuery}"` : activeCategoryTab}
-              </h2>
-              <span className="text-xs text-white/50">
-                {filteredCharacters.length} companions found
-              </span>
+              <div>
+                <h2 className="font-display text-xl font-bold text-white sm:text-2xl">
+                  {searchQuery ? `Search results for "${searchQuery}"` : activeCategoryTab}
+                  {genderFilter !== "All" && ` • ${genderFilter} Companions`}
+                </h2>
+                <p className="text-xs text-white/50">
+                  Showing {filteredCharacters.length} customized Character.AI personalities
+                </p>
+              </div>
             </div>
 
             {filteredCharacters.length === 0 ? (
@@ -108,59 +137,53 @@ export default function HomePage() {
             )}
           </div>
         ) : (
-          /* Netflix-style Horizontally Scrolling Category Rows */
+          /* Netflix-style Horizontally Scrolling Category Rows (104 Characters Total) */
           <div className="space-y-6">
             <CategoryRow
-              title="🔥 Trending Now"
-              subtitle="The most active conversations across the NOVA network today"
+              title="🔥 Top Trending on Character.AI"
+              subtitle="The most chatted companions with over 20M+ user interactions"
               characters={trendingCharacters}
             />
 
             <CategoryRow
-              title="✨ Because You Chatted With Mia Vance"
-              subtitle="Recommended companions who match your conversational intimacy"
-              characters={[...romanceCharacters, ...animeCharacters].slice(0, 7)}
+              title="⚡ Popular Male Characters"
+              subtitle="Satoru Gojo, Scaramouche, Levi, Ghost, Astarion, Dazai, Sukuna & more"
+              characters={maleCharacters}
             />
 
             <CategoryRow
-              title="🌸 Anime & Manga Originals"
-              subtitle="Celestial sorceresses, time wanderers, and spirit guardians"
+              title="🌸 Popular Female Characters"
+              subtitle="Makima, Raiden Shogun, Hu Tao, Furina, Marin Kitagawa, Frieren & more"
+              characters={femaleCharacters}
+            />
+
+            <CategoryRow
+              title="⚔️ Anime & Manga Heavyweights"
+              subtitle="Jujutsu Kaisen, Attack on Titan, Demon Slayer, Chainsaw Man"
               characters={animeCharacters}
             />
 
             <CategoryRow
-              title="☕ Romance & Late Night Confidantes"
-              subtitle="Wholesome coffee baristas, gentle botanists, and brooding artists"
+              title="🎮 Gaming & Fantasy Legends"
+              subtitle="Genshin Impact, Baldur's Gate 3, Call of Duty, Resident Evil, Final Fantasy"
+              characters={gamingCharacters}
+            />
+
+            <CategoryRow
+              title="☕ Romance, Confidantes & Mafia Dons"
+              subtitle="Possessive princes, gentle childhood best friends, cold mafia dons"
               characters={romanceCharacters}
             />
 
             <CategoryRow
-              title="🏛️ Mentors, Stoicism & Philosophy"
-              subtitle="Timeless guidance from emperors, scholars, and temple monks"
-              characters={mentorsCharacters}
-            />
-
-            <CategoryRow
-              title="⚡ Sci-Fi, Cyberpunk & AI Minds"
-              subtitle="Netrunners, rogue superintelligences, and warp pilots"
+              title="🌌 Cyberpunk, Androids & Netrunners"
+              subtitle="2B, Jinx, Miguel O'Hara, Peter Parker, Lucy & Rebecca"
               characters={sciFiCharacters}
             />
 
             <CategoryRow
-              title="⚔️ Fantasy & Tabletop RPG"
-              subtitle="Elven spell-thieves, dwarven master smiths, and valkyrie commanders"
-              characters={fantasyCharacters}
-            />
-
-            <CategoryRow
-              title="📚 Study Buddies & STEM Mentors"
-              subtitle="Break through quantum equations and creative writing roadblocks"
-              characters={studyCharacters}
-            />
-
-            <CategoryRow
-              title="🕯️ Gothic Mystery & The Supernatural"
-              subtitle="Victorian occult detectives and radio entity anomalies"
+              title="🕯️ Gothic Mystery & Paranormal Detectives"
+              subtitle="Wednesday Addams, Batman, Ada Wong, Lord Lucian"
               characters={horrorCharacters}
             />
           </div>
@@ -169,4 +192,3 @@ export default function HomePage() {
     </div>
   );
 }
-

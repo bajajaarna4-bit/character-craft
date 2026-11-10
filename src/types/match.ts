@@ -20,3 +20,4 @@ export interface WingmanSuggestion {
   text: string;
   vibe: "playful" | "thoughtful" | "direct" | "funny";
 }
+
