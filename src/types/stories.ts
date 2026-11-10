@@ -17,3 +17,4 @@ export interface StoryTurn {
   dialogue: string;
   timestamp: string;
 }
+

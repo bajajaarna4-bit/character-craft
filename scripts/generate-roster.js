@@ -725,3 +725,4 @@ const CHARACTERS_DATA = [
 ];
 
 console.log("Base set size:", CHARACTERS_DATA.length);
+

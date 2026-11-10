@@ -171,3 +171,4 @@ export const SEED_CHARACTERS: Character[] = ${JSON.stringify(allCharacters, null
 
 fs.writeFileSync(path.join(__dirname, '../src/lib/characters-seed.ts'), fileContent, 'utf-8');
 console.log("Wrote characters-seed.ts successfully!");
+

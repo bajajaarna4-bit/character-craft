@@ -74,6 +74,15 @@ export default function Navbar() {
               Creator Studio
             </Link>
             <Link
+              href="/stories"
+              onClick={() => sounds.playClick()}
+              onMouseEnter={() => sounds.playHover()}
+              className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <Sparkles className="h-4 w-4 text-amber-400" />
+              Stories Mode
+            </Link>
+            <Link
               href="/community"
               onClick={() => sounds.playClick()}
               onMouseEnter={() => sounds.playHover()}
