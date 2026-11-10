@@ -28,8 +28,6 @@ export default function Navbar() {
     verifyAge 
   } = useAppStore();
 
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl transition-all duration-300">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -59,6 +57,7 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-1">
             <Link
               href="/"
+              onClick={() => sounds.playClick()}
               onMouseEnter={() => sounds.playHover()}
               className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
             >
@@ -67,32 +66,33 @@ export default function Navbar() {
             </Link>
             <Link
               href="/create"
+              onClick={() => sounds.playClick()}
               onMouseEnter={() => sounds.playHover()}
               className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
             >
               <Plus className="h-4 w-4 text-brand-400" />
               Creator Studio
             </Link>
-            <div className="relative group">
-              <button 
-                onMouseEnter={() => sounds.playHover()}
-                className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-white/50 cursor-not-allowed hover:text-white/70 transition-colors"
-              >
-                <Users className="h-4 w-4 text-white/40" />
-                Communities
-                <span className="rounded-full bg-brand-500/20 px-1.5 py-0.5 text-[10px] text-brand-300">Phase 3</span>
-              </button>
-            </div>
-            <div className="relative group">
-              <button 
-                onMouseEnter={() => sounds.playHover()}
-                className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-white/50 cursor-not-allowed hover:text-white/70 transition-colors"
-              >
-                <Radio className="h-4 w-4 text-white/40" />
-                Random Match
-                <span className="rounded-full bg-brand-accent/20 px-1.5 py-0.5 text-[10px] text-brand-accent">Phase 4</span>
-              </button>
-            </div>
+            <Link
+              href="/community"
+              onClick={() => sounds.playClick()}
+              onMouseEnter={() => sounds.playHover()}
+              className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <Users className="h-4 w-4 text-brand-400" />
+              Communities
+              <span className="rounded-full bg-brand-500/20 px-1.5 py-0.5 text-[10px] text-brand-300 font-semibold">Live</span>
+            </Link>
+            <Link
+              href="/match"
+              onClick={() => sounds.playClick()}
+              onMouseEnter={() => sounds.playHover()}
+              className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <Radio className="h-4 w-4 text-brand-accent animate-pulse" />
+              Random Match
+              <span className="rounded-full bg-brand-accent/20 px-1.5 py-0.5 text-[10px] text-brand-accent font-semibold">18+</span>
+            </Link>
           </nav>
         </div>
 
@@ -100,16 +100,14 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           {/* Search Bar */}
           <div className="relative flex items-center">
-            <div className="relative flex items-center">
-              <input
-                type="text"
-                placeholder="Search characters, anime, sci-fi..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-9 w-40 sm:w-60 rounded-full border border-white/10 bg-white/5 pl-9 pr-4 text-xs text-white placeholder-white/40 outline-none transition-all duration-300 focus:w-64 sm:focus:w-80 focus:border-brand-500/50 focus:bg-white/10 focus:ring-1 focus:ring-brand-500/50"
-              />
-              <Search className="pointer-events-none absolute left-3 h-4 w-4 text-white/40" />
-            </div>
+            <input
+              type="text"
+              placeholder="Search characters, anime, sci-fi..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="h-9 w-36 sm:w-56 rounded-full border border-white/10 bg-white/5 pl-9 pr-4 text-xs text-white placeholder-white/40 outline-none transition-all duration-300 focus:w-56 sm:focus:w-72 focus:border-brand-500/50 focus:bg-white/10 focus:ring-1 focus:ring-brand-500/50"
+            />
+            <Search className="pointer-events-none absolute left-3 h-4 w-4 text-white/40" />
           </div>
 
           {/* Audio Sound FX Toggle */}

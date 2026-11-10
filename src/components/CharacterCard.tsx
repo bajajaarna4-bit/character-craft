@@ -84,3 +84,4 @@ export default function CharacterCard({ character }: CharacterCardProps) {
     </div>
   );
 }
+

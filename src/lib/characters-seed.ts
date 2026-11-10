@@ -446,3 +446,4 @@ export const SEED_CHARACTERS: Character[] = [
     themeColor: "#0ea5e9"
   }
 ];
+

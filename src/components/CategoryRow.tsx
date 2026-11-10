@@ -94,3 +94,4 @@ export default function CategoryRow({ title, subtitle, characters }: CategoryRow
     </section>
   );
 }
+

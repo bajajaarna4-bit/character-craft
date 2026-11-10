@@ -102,3 +102,4 @@ STRIPE_WEBHOOK_SECRET=""
   - WebRTC video/voice matchmaking with interest tags & AI wingman
 - [ ] **Phase 5: Creator Economy & Stripe Subscriptions**:
   - Paywall, tiers, tips, and character monetization
+

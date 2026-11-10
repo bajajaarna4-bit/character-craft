@@ -71,3 +71,4 @@ export interface ChatMessage {
   isStreaming?: boolean;
   mood?: "neutral" | "happy" | "sad" | "flirty" | "angry" | "thoughtful" | "mysterious";
 }
+
